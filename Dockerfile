@@ -1,7 +1,7 @@
 FROM php:7.2-cli
 
 RUN apt-get update \
-    && apt-get install -y gnupg libcurl4-openssl-dev sudo git libxslt-dev zlib1g-dev graphviz zip libmcrypt-dev libicu-dev g++ libpcre3-dev libgd-dev libfreetype6-dev sqlite curl build-essential unzip gcc make autoconf libc-dev pkg-config \
+    && apt-get install -y gnupg libcurl4-openssl-dev sudo git libxslt-dev zlib1g-dev graphviz zip libmcrypt-dev libicu-dev g++ libpcre3-dev libgd-dev libfreetype6-dev sqlite curl build-essential unzip gcc make autoconf libc-dev pkg-config ruby bash git python-dev python-pip \
     && apt-get clean \
     && docker-php-ext-install zip \
     && docker-php-ext-install mbstring \
@@ -11,7 +11,8 @@ RUN apt-get update \
     && docker-php-ext-install json \
     && docker-php-ext-install intl \
     && pecl install --nodeps mcrypt-snapshot \
-    && docker-php-ext-enable mcrypt
+    && docker-php-ext-enable mcrypt \
+    && pip install awscli
 
 RUN echo "memory_limit = -1;" > $PHP_INI_DIR/conf.d/memory_limit.ini
 
