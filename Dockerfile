@@ -14,10 +14,10 @@ RUN apt-get update \
     && docker-php-ext-enable mcrypt \
     && pip install awscli
 
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+RUN apt-get install -y nodejs
 RUN echo "memory_limit = -1;" > $PHP_INI_DIR/conf.d/memory_limit.ini
-
 ENV COMPOSER_ALLOW_SUPERUSER=1
-
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 RUN composer global require "squizlabs/php_codesniffer=*"
+RUN npm install -g aglio
