@@ -20,4 +20,4 @@ RUN echo "memory_limit = -1;" > $PHP_INI_DIR/conf.d/memory_limit.ini
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer global require "squizlabs/php_codesniffer=*"
-RUN npm install -g aglio
+RUN npm install -g aglio yarn
