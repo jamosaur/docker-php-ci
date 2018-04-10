@@ -10,6 +10,7 @@ RUN apt-get update \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install json \
     && docker-php-ext-install intl \
+    && docker-php-ext-install soap \
     && pecl install --nodeps mcrypt-snapshot \
     && docker-php-ext-enable mcrypt \
     && pip install awscli
@@ -30,10 +31,14 @@ RUN wget --no-check-certificate https://raw.githubusercontent.com/stedolan/jq/ma
 RUN curl https://raw.githubusercontent.com/silinternational/ecs-deploy/master/ecs-deploy | tee -a /usr/bin/ecs-deploy
 RUN chmod +x /usr/bin/ecs-deploy
 
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
-RUN apt-get install -y nodejs
+RUN wget --no-check-certificate https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_amd64.zip -O /tmp/terraform.zip && \
+    unzip /tmp/terraform.zip -d /usr/bin && \
+    chmod +x /usr/bin/terraform
+
 RUN echo "memory_limit = -1;" > $PHP_INI_DIR/conf.d/memory_limit.ini
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer global require "squizlabs/php_codesniffer=*"
-RUN npm install -g aglio yarn
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-get install -y nodejs
+RUN npm install -g aglio yarn --unsafe
